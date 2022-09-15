@@ -2,13 +2,14 @@ const words = document.querySelector('#box-words');
 const btnSubmit = document.querySelector('#btn-submit');
 const btnNewLine = document.querySelector('#btn-new-line');
 
-const wordDay = 'WORLD';
+const wordDay = 'NAVIO';
 const allLettersString = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 const allLetters = allLettersString.split('');
 
 const pastLetters = [];
-const lettersNow = [];
-let word;
+let lettersNow = [];
+let word = '';
+let wordUser = '';
 
 function newLine() {
   if (lettersNow.length != 0) {
@@ -27,19 +28,23 @@ function disabledLetters() {
   })
   pastLetters.push(lettersNow);
   word.classList.add('past-word');
+  clearWordAndLetter()
+  wordUser = '';
+  lettersNow = [];
 }
 
-function checkWord() {
-  let wordUser = '';
-
+async function makeWordUser() {
   lettersNow.map(letter => {
     wordUser += letter.value.toUpperCase();
   });
+  return;
+}
 
+function checkWord() {
   if (wordUser === wordDay) {
-    return true
+    return true;
   }
-  return false
+  return false;
 }
 
 function checkLettersPosition() {
@@ -63,14 +68,40 @@ function youWin() {
   alert('You Win!');
 }
 
-btnSubmit.addEventListener('click', () => {
+async function validateLetters() {
+  console.log(wordUser.length, wordUser)
+  if (wordUser.length != wordDay.length) {
+    return "Sua palavra não é válida";
+  }
+
+  const response = await fetch(`https://significado.herokuapp.com/v2/${wordUser.toLocaleLowerCase()}`);
+  if (!response.ok) {
+    return "Não reconheço essa palavra";
+  }
+
+  const data = await response.json()
+  if (data.length === 0) {
+    return "Não entra aqui";
+  }
+
+  return true
+
+}
+
+btnSubmit.addEventListener('click', async () => {
+  await makeWordUser()
+  const isValidate = await validateLetters()
+  if (isValidate !== true) {
+    alert(isValidate);
+    wordUser = '';
+    return;
+  }
   if (!checkWord()) {
     checkContainLetters();
     checkLettersPosition();
     newLine();
     return
   }
-  alert('You win!');
   youWin();
 
 });
