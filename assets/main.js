@@ -7,7 +7,6 @@ import {
 } from "./validations.js";
 
 const words = document.querySelector('#box-words');
-const btnSubmit = document.querySelector('#btn-submit');
 
 const wordDay = 'NAVIO';
 
@@ -24,6 +23,8 @@ function newLine() {
   word.classList.add('word');
   for (let i = 0; i < wordDay.length; i++) {
     lettersNow.push(word.appendChild(document.createElement('input')));
+    lettersNow[i].classList.add('letter');
+    lettersNow[i].setAttribute("maxlength", "1");
   }
 }
 
@@ -42,8 +43,9 @@ function youWin() {
   alert('You Win!');
 }
 
+window.document.onload = newLine();
 
-btnSubmit.addEventListener('click', async () => {
+async function submitWord() {
   wordUser = await makeWordUser(lettersNow)
   const isValidate = await validateLetters(wordUser, wordDay)
   if (isValidate !== true) {
@@ -59,6 +61,8 @@ btnSubmit.addEventListener('click', async () => {
   }
   youWin();
 
-});
+}
 
-window.document.onload = newLine();
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Enter') submitWord();
+});
