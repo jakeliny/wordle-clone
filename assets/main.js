@@ -6,20 +6,20 @@ const allLettersString = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 const allLetters = allLettersString.split('');
 
 
-const letters = [];
+const lettersNow = [];
 
 const word = words.appendChild(document.createElement('div'));
 word.classList.add('word');
 
 for (i = 0; i < wordDay.length; i++) {
-  letters.push(word.appendChild(document.createElement('input')));
+  lettersNow.push(word.appendChild(document.createElement('input')));
 }
 
 function checkWord() {
   let wordUser = '';
 
-  for (i = 0; i < letters.length; i++) {
-    wordUser += letters[i].value.toUpperCase();
+  for (i = 0; i < lettersNow.length; i++) {
+    wordUser += lettersNow[i].value.toUpperCase();
   }
 
   if (wordUser === wordDay) {
@@ -30,17 +30,17 @@ function checkWord() {
 }
 
 function checkLettersPosition() {
-  for (i = 0; i < letters.length; i++) {
-    if (letters[i].value.toUpperCase() === wordDay[i]) {
-      letters[i].classList.add('correctPosition');
+  for (i = 0; i < lettersNow.length; i++) {
+    if (lettersNow[i].value.toUpperCase() === wordDay[i]) {
+      lettersNow[i].classList.add('correctPosition');
     }
   }
 }
 
 function checkContainLetters() {
-  for (i = 0; i < letters.length; i++) {
-    if (wordDay.includes(letters[i].value.toUpperCase())) {
-      letters[i].classList.add('corretLetter');
+  for (i = 0; i < lettersNow.length; i++) {
+    if (wordDay.includes(lettersNow[i].value.toUpperCase())) {
+      lettersNow[i].classList.add('corretLetter');
     }
   }
 }
@@ -48,6 +48,6 @@ function checkContainLetters() {
 btnSubmit.addEventListener('click', () => {
   if (!checkWord()) {
     checkContainLetters();
-    checkLettersPosition();
   }
+  checkLettersPosition();
 });
