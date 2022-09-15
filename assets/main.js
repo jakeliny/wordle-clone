@@ -79,11 +79,6 @@ async function validateLetters() {
     return "Não reconheço essa palavra";
   }
 
-  const data = await response.json()
-  if (data.length === 0) {
-    return "Não entra aqui";
-  }
-
   return true
 
 }
