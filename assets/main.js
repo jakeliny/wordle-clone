@@ -6,7 +6,7 @@ import {
   makeWordUser
 } from "./validations.js";
 
-const words = document.querySelector('#box-words');
+const main = document.querySelector('main');
 
 const wordDay = 'NAVIO';
 
@@ -19,7 +19,7 @@ function newLine() {
   if (lettersNow.length != 0) {
     disabledLetters();
   }
-  word = words.appendChild(document.createElement('div'));
+  word = main.appendChild(document.createElement('div'));
   word.classList.add('word');
   for (let i = 0; i < wordDay.length; i++) {
     lettersNow.push(word.appendChild(document.createElement('input')));
@@ -28,8 +28,9 @@ function newLine() {
   }
 }
 
-function disabledLetters() {
+function disabledLetters(win = false) {
   lettersNow.map(letter => {
+    win && letter.classList.add('win');
     letter.setAttribute("disabled", "disabled");
   })
   pastLetters.push(lettersNow);
@@ -39,7 +40,7 @@ function disabledLetters() {
 }
 
 function youWin() {
-  disabledLetters();
+  disabledLetters(true);
   alert('You Win!');
 }
 
