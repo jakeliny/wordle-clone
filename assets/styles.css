@@ -25,11 +25,12 @@ main .word {
 }
 
 main .word input {
-  width: 4.5rem;
+  width: calc(100% / 5);
+  max-width: 4.5rem;
   height: 4.5rem;
   font-size: 3rem;
   border: none;
-  border-radius: .3rem;
+  border-radius: 0.3rem;
   text-align: center;
 
   font-family: 'Roboto Mono', monospace;
