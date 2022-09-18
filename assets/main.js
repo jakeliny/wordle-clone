@@ -24,7 +24,17 @@ function newLine() {
     lettersNow[i].classList.add('letter');
     lettersNow[i].setAttribute("maxlength", "1");
   }
+
+  const inputs = document.querySelectorAll('input');
+  inputs.forEach(input => {
+    input.addEventListener('keyup', (e) => {
+      e.key == 'Backspace' && e.target.previousElementSibling.focus();
+      e.target.value.length == 1 && e.target.nextElementSibling.focus();
+    });
+  });
 }
+
+
 
 function disabledLetters(win = false) {
   lettersNow.map(letter => {
