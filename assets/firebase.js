@@ -10,6 +10,8 @@ export {
   updateDoc,
   deleteDoc,
   getDoc,
+  where,
+  limit,
 } from 'https://www.gstatic.com/firebasejs/9.10.0/firebase-firestore.js';
 
 const firebaseConfig = {

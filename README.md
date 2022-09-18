@@ -14,7 +14,7 @@ one random word per day, with 5 letters, for you to try to guess in 7 tries. Do 
 - [x] Show right letter on wrong place
 - [X] Random word per day
 - [X] Random word with 5 letters
-- [ ] Insert words with 5 letter on database for generator word
+- [X] Insert words with 5 letter on database for generator word
 - [ ] Insert accent in words after keydown enter
 - [ ] Jump between block when filled
 - [ ] Count tries, max 7

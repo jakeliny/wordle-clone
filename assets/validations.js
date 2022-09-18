@@ -3,34 +3,45 @@ import {
   collection,
   addDoc,
   getDocs,
+  query,
+  where,
+  orderBy,
+  limit,
+  updateDoc
 } from './firebase.js';
 
 export async function verifyWordDay() {
   let wordDay = '';
-  const querySnapshot = await getDocs(collection(db, "words"));
+  const querySnapshot = await getDocs(collection(db, "guess-words"));
   querySnapshot.forEach(doc => {
     doc.data().date == new Date().toLocaleDateString() && (wordDay = doc.data().word);
   });
 
   if (!wordDay) {
     wordDay = await generateWord();
-    await addDoc(collection(db, "words"), {
+    await addDoc(collection(db, "guess-words"), {
       word: wordDay,
       date: new Date().toLocaleDateString()
     });
   }
 
-  return wordDay;
+  return wordDay.toUpperCase();
 }
 
 async function generateWord() {
+  const randomNumber = Math.floor(Math.random() * 1000);
+  const wordsQuery = query(
+    collection(db, "words"),
+    where("guessed", "==", false),
+    where("random", "==", randomNumber),
+    limit(1)
+  );
+  const querySnapshot = await getDocs(wordsQuery);
+  updateDoc(querySnapshot.docs[0].ref, {
+    guessed: true
+  });
 
-  const apiword = await fetch('https://api.dicionario-aberto.net/random')
-  const wordData = await apiword.json();
-  if (wordData.word.length == 5) {
-    return wordData.word.toUpperCase()
-  };
-  return generateWord();
+  return querySnapshot.docs[0].data().word;
 }
 
 export const validateLetters = async (wordUser, wordDay) => {
