@@ -9,11 +9,11 @@ one random word per day, with 5 letters, for you to try to guess in 7 tries. Do 
 <br>
 
 # Features:
-- [x] Secret Word
+- [x] Secret Word (CORE)
 - [x] Show right letter on right place
 - [x] Show right letter on wrong place
-- [x] Count tries, max 7
-- [ ] Random word with 5 letters
+- [X] Random word per day
+- [X] Random word with 5 letters
 - [ ] Jump between block when filled
+- [ ] Count tries, max 7
 - [ ] Not mark with yellow when letter already marked with green in the same try
-- [ ] Random word per day

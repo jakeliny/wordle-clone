@@ -1,28 +1,26 @@
 import {
   validateLetters,
-  checkWord,
   checkContainLetters,
   checkLettersPosition,
-  makeWordUser
+  makeWordUser,
+  verifyWordDay
 } from "./validations.js";
 
 const main = document.querySelector('main');
-
-const wordDay = 'NAVIO';
-
 const pastLetters = [];
 let lettersNow = [];
-let word = '';
+let wordElement = '';
 let wordUser = '';
+let wordDay = '';
 
 function newLine() {
   if (lettersNow.length != 0) {
     disabledLetters();
   }
-  word = main.appendChild(document.createElement('div'));
-  word.classList.add('word');
+  wordElement = main.appendChild(document.createElement('div'));
+  wordElement.classList.add('word');
   for (let i = 0; i < wordDay.length; i++) {
-    lettersNow.push(word.appendChild(document.createElement('input')));
+    lettersNow.push(wordElement.appendChild(document.createElement('input')));
     lettersNow[i].classList.add('letter');
     lettersNow[i].setAttribute("maxlength", "1");
   }
@@ -34,7 +32,7 @@ function disabledLetters(win = false) {
     letter.setAttribute("disabled", "disabled");
   })
   pastLetters.push(lettersNow);
-  word.classList.add('past-word');
+  wordElement.classList.add('past-word');
   wordUser = '';
   lettersNow = [];
 }
@@ -43,26 +41,30 @@ function youWin() {
   disabledLetters(true);
   alert('You Win!');
 }
-
-window.document.onload = newLine();
-
 async function submitWord() {
   wordUser = await makeWordUser(lettersNow)
   const isValidate = await validateLetters(wordUser, wordDay)
+
   if (isValidate !== true) {
     alert(isValidate);
     wordUser = '';
     return;
   }
-  if (!checkWord(wordUser, wordDay)) {
+  if (wordUser != wordDay) {
     checkContainLetters(lettersNow, wordDay);
     checkLettersPosition(lettersNow, wordDay);
     newLine();
     return
   }
-  youWin();
 
+  youWin();
 }
+
+window.addEventListener('load', async (event) => {
+  wordDay = await verifyWordDay();
+  newLine();
+});
+
 
 document.addEventListener('keydown', (event) => {
   if (event.key === 'Enter') submitWord();

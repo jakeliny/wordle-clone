@@ -1,3 +1,38 @@
+import {
+  db,
+  collection,
+  addDoc,
+  getDocs,
+} from './firebase.js';
+
+export async function verifyWordDay() {
+  let wordDay = '';
+  const querySnapshot = await getDocs(collection(db, "words"));
+  querySnapshot.forEach(doc => {
+    doc.data().date == new Date().toLocaleDateString() && (wordDay = doc.data().word);
+  });
+
+  if (!wordDay) {
+    wordDay = await generateWord();
+    await addDoc(collection(db, "words"), {
+      word: wordDay,
+      date: new Date().toLocaleDateString()
+    });
+  }
+
+  return wordDay;
+}
+
+async function generateWord() {
+
+  const apiword = await fetch('https://api.dicionario-aberto.net/random')
+  const wordData = await apiword.json();
+  if (wordData.word.length == 5) {
+    return wordData.word.toUpperCase()
+  };
+  return generateWord();
+}
+
 export const validateLetters = async (wordUser, wordDay) => {
   if (wordUser.length != wordDay.length) {
     return "Sua palavra não é válida";
@@ -10,13 +45,6 @@ export const validateLetters = async (wordUser, wordDay) => {
 
   return true
 
-}
-
-export const checkWord = (wordUser, wordDay) => {
-  if (wordUser === wordDay) {
-    return true;
-  }
-  return false;
 }
 
 export const checkLettersPosition = (lettersNow, wordDay) => {
