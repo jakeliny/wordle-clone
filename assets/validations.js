@@ -6,21 +6,22 @@ import {
   query,
   where,
   limit,
-  updateDoc
-} from './firebase.js';
+  updateDoc,
+} from "./firebase.js";
 
 export async function verifyWordDay() {
-  let wordDay = '';
+  let wordDay = "";
   const querySnapshot = await getDocs(collection(db, "guess-words"));
-  querySnapshot.forEach(doc => {
-    doc.data().date == new Date().toLocaleDateString() && (wordDay = doc.data().word);
+  querySnapshot.forEach((doc) => {
+    doc.data().date == new Date().toLocaleDateString() &&
+      (wordDay = doc.data().word);
   });
 
   if (!wordDay) {
     wordDay = await generateWord();
     await addDoc(collection(db, "guess-words"), {
       word: wordDay,
-      date: new Date().toLocaleDateString()
+      date: new Date().toLocaleDateString(),
     });
   }
 
@@ -37,7 +38,7 @@ async function generateWord() {
   );
   const querySnapshot = await getDocs(wordsQuery);
   updateDoc(querySnapshot.docs[0].ref, {
-    guessed: true
+    guessed: true,
   });
 
   return querySnapshot.docs[0].data().word;
@@ -48,35 +49,36 @@ export const validateLetters = async (wordUser, wordDay) => {
     return "Sua palavra não é válida";
   }
 
-  const response = await fetch(`https://significado.herokuapp.com/v2/${wordUser.toLocaleLowerCase()}`);
+  const response = await fetch(
+    `https://significado.herokuapp.com/v2/${wordUser.toLocaleLowerCase()}`
+  );
   if (!response.ok) {
     return "Não reconheço essa palavra";
   }
 
-  return true
-
-}
+  return true;
+};
 
 export const checkLettersPosition = (lettersNow, wordDay) => {
-  lettersNow.map(letter => {
+  lettersNow.map((letter) => {
     if (letter.value.toUpperCase() === wordDay[lettersNow.indexOf(letter)]) {
-      letter.classList.add('corretLetterPosition');
+      letter.classList.add("correctLetterPosition");
     }
   });
-}
+};
 
 export const checkContainLetters = (lettersNow, wordDay) => {
-  lettersNow.map(letter => {
+  lettersNow.map((letter) => {
     if (wordDay.includes(letter.value.toUpperCase())) {
-      letter.classList.add('corretLetter');
+      letter.classList.add("correctLetter");
     }
   });
-}
+};
 
 export const makeWordUser = async (lettersNow) => {
-  let wordUser = '';
-  lettersNow.map(letter => {
+  let wordUser = "";
+  lettersNow.map((letter) => {
     wordUser += letter.value.toUpperCase();
   });
   return wordUser;
-}
+};
