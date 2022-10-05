@@ -19,11 +19,12 @@ function newLine() {
   }
   wordElement = main.appendChild(document.createElement('div'));
   wordElement.classList.add('word');
-  for (let i = 0; i < wordDay.length; i++) {
+  
+  wordDay.forEach((_,i) => {
     lettersNow.push(wordElement.appendChild(document.createElement('input')));
     lettersNow[i].classList.add('letter');
     lettersNow[i].setAttribute("maxlength", "1");
-  }
+  });
 
   const inputs = document.querySelectorAll('input');
   inputs.forEach(input => {
