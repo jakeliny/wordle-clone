@@ -70,7 +70,7 @@ async function submitWord() {
     checkContainLetters(lettersNow, wordDay);
     checkLettersPosition(lettersNow, wordDay);
 
-    if (attemptsCounter === ATTEMPTS_LIMIT) {
+    if (attemptsCounter === attemptsLimit) {
       youLost();
       return;
     }
