@@ -27,7 +27,6 @@ function newLine() {
   const wordDayInArray = wordDay.split('');
   wordDayInArray.forEach((_, i) => {
     const inputElement = document.createElement('input');
-    
     lettersNow.push(wordElement.appendChild(inputElement));
     lettersNow[i].classList.add('letter');
     lettersNow[i].setAttribute("maxlength", "1");
