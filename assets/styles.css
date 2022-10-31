@@ -44,12 +44,12 @@ main .word input:disabled {
   color: #FFF;
 }
 
-main .word input.corretLetter {
+main .word input.correctLetter {
   background-color: #f59e0b;
   color: #FFF;
 }
 
-main .word input.corretLetterPosition,
+main .word input.correctLetterPosition,
 main .word input.win {
   background-color: #10b981;
   color: #FFF;
