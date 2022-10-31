@@ -16,6 +16,6 @@ one random word per day, with 5 letters, for you to try to guess in 7 tries. Do 
 - [X] Random word with 5 letters
 - [X] Insert words with 5 letter on database for generator word
 - [X] Jump between inputs when filled
-- [ ] Count tries, max 7
+- [X] Count tries, max 7
 - [ ] Insert accent in words after keydown enter
 - [ ] Not mark with yellow when letter already marked with green in the same try

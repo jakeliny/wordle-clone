@@ -14,6 +14,7 @@ let wordElement = '';
 let wordUser = '';
 let wordDay = '';
 let attemptsCounter = 1;
+const firstInputsIndex = [0, 5, 10, 15, 20, 25, 30]
 
 function newLine() {
   if (lettersNow.length != 0) {
@@ -33,7 +34,9 @@ function newLine() {
   })
 
   const inputs = document.querySelectorAll('input');
-  inputs.forEach(input => {
+  inputs.forEach((input, i) => {
+    console.log(i)
+    firstInputsIndex.includes(i) && input.focus();
     input.addEventListener('keyup', (e) => {
       if (e.key === 'Backspace' || e.key === 'ArrowLeft') {
         e.target.previousElementSibling?.focus();
@@ -64,7 +67,7 @@ function youWin() {
 
 function youLost() {
   disabledLetters(false);
-  alert('You Lost.');
+  alert('You Lost. The Asnwer is: ' + wordDay);
 }
 
 async function submitWord() {
