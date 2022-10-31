@@ -8,7 +8,7 @@ import {
 
 const main = document.querySelector('main');
 const pastLetters = [];
-const ATTEMPTS_LIMIT = 7
+const attemptsLimit = 7
 let lettersNow = [];
 let wordElement = '';
 let wordUser = '';
