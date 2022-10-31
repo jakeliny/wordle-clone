@@ -8,10 +8,12 @@ import {
 
 const main = document.querySelector('main');
 const pastLetters = [];
+const attemptsLimit = 7
 let lettersNow = [];
 let wordElement = '';
 let wordUser = '';
 let wordDay = '';
+let attemptsCounter = 1;
 
 function newLine() {
   if (lettersNow.length != 0) {
@@ -19,18 +21,16 @@ function newLine() {
   }
 
   const divElement = document.createElement('div');
-
   wordElement = main.appendChild(divElement);
   wordElement.classList.add('word');
 
   const wordDayInArray = wordDay.split('');
-
-  wordDayInArray.forEach((_, index) => {
+  wordDayInArray.forEach((_, i) => {
     const inputElement = document.createElement('input');
     
     lettersNow.push(wordElement.appendChild(inputElement));
-    lettersNow[index].classList.add('letter');
-    lettersNow[index].setAttribute("maxlength", "1");
+    lettersNow[i].classList.add('letter');
+    lettersNow[i].setAttribute("maxlength", "1");
   })
 
   const inputs = document.querySelectorAll('input');
@@ -62,6 +62,12 @@ function youWin() {
   disabledLetters(true);
   alert('You Win!');
 }
+
+function youLost() {
+  disabledLetters(false);
+  alert('You Lost.');
+}
+
 async function submitWord() {
   wordUser = await makeWordUser(lettersNow)
   const isValidate = await validateLetters(wordUser, wordDay)
@@ -75,8 +81,15 @@ async function submitWord() {
   if (wordUser != wordDay) {
     checkContainLetters(lettersNow, wordDay);
     checkLettersPosition(lettersNow, wordDay);
+
+    if (attemptsCounter === attemptsLimit) {
+      youLost();
+      return;
+    }
+
     newLine();
-    return
+    attemptsCounter++;
+    return;
   }
 
   youWin();
