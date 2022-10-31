@@ -19,20 +19,29 @@ function newLine() {
   if (lettersNow.length != 0) {
     disabledLetters();
   }
-  wordElement = main.appendChild(document.createElement('div'));
+
+  const divElement = document.createElement('div');
+  wordElement = main.appendChild(divElement);
   wordElement.classList.add('word');
-  
-  wordDay.forEach((_,i) => {
-    lettersNow.push(wordElement.appendChild(document.createElement('input')));
+
+  const wordDayInArray = wordDay.split('');
+  wordDayInArray.forEach((_, i) => {
+    const inputElement = document.createElement('input');
+    lettersNow.push(wordElement.appendChild(inputElement));
     lettersNow[i].classList.add('letter');
     lettersNow[i].setAttribute("maxlength", "1");
-  });
+  })
 
   const inputs = document.querySelectorAll('input');
   inputs.forEach(input => {
     input.addEventListener('keyup', (e) => {
-      e.key == 'Backspace' && e.target.previousElementSibling.focus();
-      e.target.value.length == 1 && e.target.nextElementSibling.focus();
+      if (e.key === 'Backspace' || e.key === 'ArrowLeft') {
+        e.target.previousElementSibling?.focus();
+      }
+
+      if (e.target.value.length === 1 || e.key === 'ArrowRight') {
+        e.target.nextElementSibling?.focus();
+      }
     });
   });
 }
@@ -67,6 +76,7 @@ async function submitWord() {
     wordUser = '';
     return;
   }
+
   if (wordUser != wordDay) {
     checkContainLetters(lettersNow, wordDay);
     checkLettersPosition(lettersNow, wordDay);
