@@ -8,10 +8,12 @@ import {
 
 const main = document.querySelector('main');
 const pastLetters = [];
+const attemptsLimit = 7
 let lettersNow = [];
 let wordElement = '';
 let wordUser = '';
 let wordDay = '';
+let attemptsCounter = 1;
 
 function newLine() {
   if (lettersNow.length != 0) {
@@ -35,8 +37,6 @@ function newLine() {
   });
 }
 
-
-
 function disabledLetters(win = false) {
   lettersNow.map(letter => {
     win && letter.classList.add('win');
@@ -52,6 +52,12 @@ function youWin() {
   disabledLetters(true);
   alert('You Win!');
 }
+
+function youLost() {
+  disabledLetters(false);
+  alert('You Lost.');
+}
+
 async function submitWord() {
   wordUser = await makeWordUser(lettersNow)
   const isValidate = await validateLetters(wordUser, wordDay)
@@ -64,8 +70,15 @@ async function submitWord() {
   if (wordUser != wordDay) {
     checkContainLetters(lettersNow, wordDay);
     checkLettersPosition(lettersNow, wordDay);
+
+    if (attemptsCounter === attemptsLimit) {
+      youLost();
+      return;
+    }
+
     newLine();
-    return
+    attemptsCounter++;
+    return;
   }
 
   youWin();
